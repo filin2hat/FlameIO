@@ -31,3 +31,7 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+include(":frameio-android")
+include(":frameio-desktop")
+include(":frameio-shared")
+include(":core:uikit")

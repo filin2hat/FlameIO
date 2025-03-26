@@ -1,3 +1,5 @@
+@file:JvmName("FrameIO")
+
 package dev.filinhat.frameio
 
 import androidx.compose.ui.window.Window
@@ -8,6 +10,6 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "FrameIO",
     ) {
-        App()
+        FrameIOApp()
     }
 }
