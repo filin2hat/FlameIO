@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.jetbrains.kotlin.multiplatform)
+    alias(libs.plugins.jetbrains.compose.multiplatform)
+    alias(libs.plugins.jetbrains.compose.compiler)
 }
 
 kotlin {
@@ -16,7 +18,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(projects.composeApp)
+            implementation(projects.composeApp)
+            implementation(compose.runtime)
+            implementation(compose.ui)
         }
     }
 }
