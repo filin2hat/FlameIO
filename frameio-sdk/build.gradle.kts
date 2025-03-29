@@ -3,8 +3,9 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.jetbrains.kotlin.multiplatform)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.jetbrains.compose.multiplatform)
-    alias(libs.plugins.jetbrains.compose.compiler)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.jetbrains.kotlin.ksp)
+    alias(libs.plugins.ktorfit)
 }
 
 kotlin {
@@ -20,7 +21,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+            baseName = "FrameIOSdk"
             isStatic = true
         }
     }
@@ -31,26 +32,28 @@ kotlin {
         val desktopMain by getting
 
         androidMain.dependencies {
-            implementation(compose.preview)
+            implementation(libs.ktor.client.engine.okhttp)
         }
         commonMain.dependencies {
-            api(projects.core.uikit)
-            implementation(projects.frameioSdk)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.jetbrains.lifecycle.viewmodel.compose)
-            implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.ktor.client.core)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.contentNegotiation)
+            implementation(libs.ktor.client.auth)
+            implementation(libs.ktorfit)
         }
         desktopMain.dependencies {
-            implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.ktor.client.engine.okhttp)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.engine.darwin)
         }
     }
 }
 
 android {
-    namespace = "dev.filinhat.frameio.compose"
+    namespace = "dev.filinhat.frameio.sdk"
     compileSdk =
         libs.versions.android.compileSdk
             .get()
@@ -67,8 +70,4 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-}
-
-dependencies {
-    debugImplementation(compose.uiTooling)
 }
